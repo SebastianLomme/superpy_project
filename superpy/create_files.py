@@ -1,6 +1,7 @@
 import os
 import csv
 from datetime import date, timedelta, datetime
+from helper import get_id
 
 current_path = os.path.dirname(__file__)
 current_path_bought = os.path.join(current_path, "bought.csv")
@@ -55,40 +56,60 @@ def read_sold_list():
                 sold_list, delimiter=delimiter, fieldnames=fieldnames
             )
             next(read_sold_list)
-            for line in read_sold_list:
-                data_sold.append(line)
+            for row in read_sold_list:
+                id = int(row["id"])
+                bought_id = int(row["bought_id"])
+                sell_date = row["sell_date"]
+                sell_price = float(row["sell_price"])
+                data_sold.append({
+                    "id": id,
+                    "bought_id": bought_id,
+                    "sell_date": sell_date,
+                    "sell_price": sell_price
+                })
     else:
         with open(current_path_sold, "w", newline="") as sold_list:
+
             fieldnames = ["id", "bought_id", "sell_date", "sell_price"]
             writer_sold_list = csv.DictWriter(
                 sold_list, delimiter=delimiter, fieldnames=fieldnames
             )
             writer_sold_list.writeheader()
-            for line in data_sold:
-                writer_sold_list.write(line)
+            for row in data_sold:
+                writer_sold_list.write(row)
 
 
-def reader_stock_list():
-    if os.path.exists(current_path_stock):
-        with open(current_path_stock, "r", newline="") as stock_list:
-            reader_stock_list = csv.DictReader(
-                stock_list,
-                delimiter=delimiter,
-            )
-            for line in reader_stock_list:
-                data_stock.append(line)
-    else:
-        with open(current_path_stock, "w", newline="") as stock_list:
+def writer_stock_list():
+    with open(current_path_stock, "w", newline="") as stock_list:
             fieldnames = [
                 "id",
+                "bought_id",
                 "product_name",
-                "buy_date",
-                "buy_price",
-                "expiration_data",
+                "number_in_stock"
             ]
             writer_stock_list = csv.DictWriter(
                 stock_list, delimiter=delimiter, fieldnames=fieldnames
             )
             writer_stock_list.writeheader()
-            for line in data:
-                writer_stock_list.writerow(line)
+            total_list_stock = []
+            for row in data_stock:
+                # product = {}
+                if row["product_name"] in [product["product_name"] for product in total_list_stock]:
+                    print(row["product_name"])
+                    for product in total_list_stock:
+                        if product["product_name"] == row["product_name"]:
+                            print("test", product)
+                            product["bought_id"].append(row["id"])
+                            product["number_in_stock"] = len(product["bought_id"])
+                else:
+                    bought_id = [row["bought_id"]]
+                    product = {
+                        "id": get_id(total_list_stock),
+                        "bought_id": bought_id,
+                        "product_name": row["product_name"],
+                        "number_in_stock": len(bought_id)
+                    }
+                    total_list_stock.append(product)
+            for row in total_list_stock:
+                writer_stock_list.writerow(row)
+

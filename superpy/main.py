@@ -5,7 +5,8 @@ import os
 from create_files import (
     read_bought_to_data,
     read_sold_list,
-    reader_stock_list,
+    # reader_stock_list,
+    writer_stock_list,
     current_path_sold,
     current_path_bought,
     data_sold,
@@ -15,6 +16,7 @@ from create_files import (
     delimiter,
 )
 from parser import args
+from helper import get_id
 
 
 # Do not change these lines.
@@ -111,26 +113,17 @@ def buy_product(product_name, buy_date, buy_price, expiration_data):
 
 def get_stock():
     for product in data:
-        if str(product["id"]) not in [product["bought_id"] for product in data_sold]:
-            print("Today: ", datetime.strptime(today, "%d/%m/%Y"))
+        if product["id"] not in [product["bought_id"] for product in data_sold]:
             if product["expiration_data"] > datetime.strptime(today, "%d/%m/%Y"):
-                print("test")
-                data_stock.append(product)
-            print("Expiration: ", product["expiration_data"])
-            # print("test", [d['id'] for d in data_sold])
+                data_stock.append({**product, "bought_id": product["id"]})
 
 
-def get_id(list_data):
-    if len(list_data) == 0:
-        return 1
-    else:
-        return int(list_data[-1]["id"]) + 1
 
 
 def main():
     read_bought_to_data()
     read_sold_list()
-    reader_stock_list
+    # reader_stock_list()
     set_new_date_today(args)
     set_delimiter()
     if args.command == "sell":
@@ -142,9 +135,7 @@ def main():
         )
         read_bought_to_data()
     get_stock()
-    for line in data_stock:
-        print("Data_stock: ", line)
-    print("today:", today)
+    writer_stock_list()
 
 
 if __name__ == "__main__":

@@ -24,6 +24,8 @@
     3. alles wat in sold staat wordt de revenue bepaald
 
 
+9. Extra opdracht automatisch aanvullen van de voorraad
+
 
 
 

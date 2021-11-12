@@ -1,0 +1,5 @@
+id;bought_id;product_name;number_in_stock
+1;[2];Chocolate;1
+2;[3, 8, 9, 10, 11];Beer;5
+3;[4, 7];Sausage ;2
+4;[5];Cheese;1
