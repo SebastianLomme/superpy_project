@@ -1,0 +1,54 @@
+import csv
+from datetime import datetime
+from helper import get_id
+
+
+class Bought_keeper:
+    def __init__(self, path):
+        self.path = path
+        self.fieldnames = [
+            "id",
+            "product_name",
+            "buy_date",
+            "buy_price",
+            "expiration_date",
+        ]
+
+    def read_bought_to_data(self):
+        data = []
+        with open(self.path, "r", newline="") as file:
+            reader = csv.DictReader(file, delimiter=";", fieldnames=self.fieldnames)
+            next(reader)
+            for row in reader:
+                id = int(row["id"])
+                product_name = str(row["product_name"])
+                buy_date = datetime.strptime(row["buy_date"], "%Y-%m-%d").date()
+                buy_price = float(row["buy_price"])
+                expiration_date = datetime.strptime(
+                    row["expiration_date"], "%Y-%m-%d"
+                ).date()
+                data.append(
+                    {
+                        "id": id,
+                        "product_name": product_name,
+                        "buy_date": buy_date,
+                        "buy_price": buy_price,
+                        "expiration_date": expiration_date,
+                    }
+                )
+            return data
+
+    def buy_product(self, product_name, buy_date, buy_price, expiration_date, data):
+        buy_product = {
+            "id": get_id(data),
+            "product_name": product_name,
+            "buy_date": buy_date,
+            "buy_price": buy_price,
+            "expiration_date": expiration_date,
+        }
+        with open(self.path, "a") as bought_list:
+            writer = csv.DictWriter(
+                bought_list, delimiter=";", fieldnames=self.fieldnames
+            )
+            writer.writerow(buy_product)
+        return None

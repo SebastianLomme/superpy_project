@@ -27,9 +27,6 @@
 9. Extra opdracht automatisch aanvullen van de voorraad
 
 
-
-
-
 ```python
 def test():
     print("test")
