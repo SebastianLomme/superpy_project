@@ -28,7 +28,7 @@ class Date_setter:
             print(f"""Ok\ndate set to {self.today}""")
         elif args.days != None:
             self.today = self.set_date(args.days)
-            print("Ok")
+            print(f"""Ok\ndate set to {self.today}""")
         else:
             with open(self.path, "r") as today_file:
                 self.today = today_file.read()

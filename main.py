@@ -1,11 +1,19 @@
-def won_golden_globe(movie_name):
-    globe_winners = ['Star Wars: Episode IV – A New Hope', 'Jaws','E.T. the Extra-Terrestrial', 'Memoirs of a Geisha']
-    return [movie for movie in movie_name if movie in globe_winners]
+def create_passport(name, birth_date, birth_place, height, nationality):
+    passport = {str(name), str(birth_date), str(birth_place), float(height), str(nationality)}
+    return passport
 
-movie_list = ['Star Wars', 'Superman', 'Indiana Jones', 'Jaws', 'Jurassic Park', 'E.T. the Extra-Terrestrial', 'Schindler"s List', 'Home Alone', 'Harry Potter']
 
-print("List: ", won_golden_globe(movie_list))
+sebastian = create_passport("sebastian", "04-09-2021", "liverpool", 1.8, "nederlands")
 
-# Python code for implementation of lower()
+print(type(sebastian))
 
-# Checking for lowercase characters
+# Comprehension = [os.path.join(cache_folder, file) for file in os.listdir(cache_folder)]
+#     return abs_path_list
+
+
+def return_absolute_path():
+    abs_path_list = []
+    for file in os.listdir(cache_folder):
+        create_path = os.path.join(cache_folder, file)
+        abs_path_list.append(create_path)
+    return abs_path_list

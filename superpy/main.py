@@ -11,6 +11,8 @@ from date_setter import Date_setter
 from bought_keeper import Bought_keeper
 from sold_keeper import Sold_keeper
 from inventory_keeper import Inventory_keeper
+from revenue_keeper import Revenue_keeper
+from helper import args_date
 
 
 # Do not change these lines.
@@ -29,24 +31,23 @@ console = Console()
 
 def main():
     today = str(Date_setter(current_path_today, args))
-    yesterday = (datetime.strptime(today, "%Y-%m-%d").date() - timedelta(days=1)).strftime("%Y-%m-%d")
-    print("yesterday: ", type(yesterday), yesterday)
+    yesterday = (
+        datetime.strptime(today, "%Y-%m-%d").date() - timedelta(days=1)
+    ).strftime("%Y-%m-%d")
     bought_keeper = Bought_keeper(current_path_bought)
     data_bought = bought_keeper.read_bought_to_data()
     sold_keeper = Sold_keeper(current_path_sold)
     data_sold = sold_keeper.read_sold_list()
     inventory_keeper = Inventory_keeper(current_path_stock)
 
-    console.print(
-        "Command: ",
-        args.command, args
-    )
+    console.print("Command: ", args)
     if args.command == "sell":
         data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
         sold_keeper.sell_product(
             args.product_name, args.sell_price, today, data_sold, data_stock
         )
         data_sold = sold_keeper.read_sold_list()
+
     elif args.command == "buy":
         bought_keeper.buy_product(
             args.product_name,
@@ -56,16 +57,36 @@ def main():
             data_bought,
         )
     elif args.command == "report":
-        if args.report_date == True:
-            inventory_keeper.make_report_stock(today, data_bought, data_sold)
-        elif args.report_date == False:
-            inventory_keeper.make_report_stock(yesterday, data_bought, data_sold)
-        else:
-            inventory_keeper.make_report_stock(args.report_date.strftime("%Y-%m-%d"), data_bought, data_sold)
+        if args.report_inventory == True:
+            date = args_date(args.report_date, today, yesterday)
+            inventory_data = inventory_keeper.make_report_stock(
+                date, data_bought, data_sold
+            )
+            if args.report_export != None:
+                inventory_keeper.export_report_csv(inventory_data, f"{args.report_export}_{date}.csv")
+        elif args.report_revenue == True:
+            date = args_date(args.report_date, today, yesterday)
+            revenue = Revenue_keeper(data_sold).get_revenue(date)
+            revenue_data = (f"revenue for {date} is €{revenue}")
+            print("Revenue: ", revenue)
+            if args.report_export != None:
+                inventory_keeper.export_report_txt(revenue_data, f"{args.report_export}_{date}.txt")
+        elif args.report_profit == True:
+            print("profit")
+        elif args.report_expired == True:
+            date = args_date(args.report_date, today, yesterday)
+            expired_data = inventory_keeper.make_report_expired(
+                date, data_bought, data_sold
+            )
+            if args.report_export != None:
+                inventory_keeper.export_report_csv(expired_data, f"{args.report_export}_{date}.csv")
+    elif args.command == "import":
+        bought_keeper.import_bought_products(args.path)
+
+
     data_bought = bought_keeper.read_bought_to_data()
     data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
-    inventory_keeper.make_report_expired(today, data_bought, data_sold)
-    
+
 
 if __name__ == "__main__":
     main()

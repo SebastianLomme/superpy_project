@@ -11,7 +11,7 @@ class Inventory_keeper:
         self.path = path
         self.stock_data = []
 
-    def writer_stock_list(self, data_stock):
+    def writer_stock_list(self,  data_stock):
         with open(self.path, "w", newline="") as stock_list:
             fieldnames = [
                 "id",
@@ -30,10 +30,13 @@ class Inventory_keeper:
             for row in total_list_stock:
                 writer_stock_list.writerow(row)
 
-
     def get_stock(self, date, data_bought, data_sold):
         data_stock = []
-        filter_bought_data = [product for product in data_bought if product["buy_date"] < datetime.strptime(date, "%Y-%m-%d").date() ]
+        filter_bought_data = [
+            product
+            for product in data_bought
+            if product["buy_date"] < datetime.strptime(date, "%Y-%m-%d").date()
+        ]
         for product in filter_bought_data:
             if product["id"] not in [product["bought_id"] for product in data_sold]:
                 if (
@@ -44,34 +47,50 @@ class Inventory_keeper:
         self.writer_stock_list(data_stock)
         return data_stock
 
-
-    def make_report_stock(self, date,  data_bought, data_sold):
+    def filter_data(self, date, data_bought, data_sold, filter):
         data_stock = []
-        filter_bought_data = [product for product in data_bought if product["buy_date"] < datetime.strptime(date, "%Y-%m-%d").date() ]
-        filter_sold_data = [product for product in data_sold if datetime.strptime(product["sell_date"], "%Y-%m-%d").date() > datetime.strptime(date, "%Y-%m-%d").date() ]
+        filter_bought_data = [
+            product
+            for product in data_bought
+            if product["buy_date"] < datetime.strptime(date, "%Y-%m-%d").date()
+        ]
+        filter_sold_data = [
+            product
+            for product in data_sold
+            if datetime.strptime(product["sell_date"], "%Y-%m-%d").date()
+            <= datetime.strptime(date, "%Y-%m-%d").date()
+        ]
         for product in filter_bought_data:
-            if product["id"] not in [product["bought_id"] for product in filter_sold_data]:
-                if (
-                    product["expiration_date"]
-                    >= datetime.strptime(date, "%Y-%m-%d").date()
-                ):
-                    data_stock.append({**product, "bought_id": product["id"]})
+            if product["id"] not in [
+                product["bought_id"] for product in filter_sold_data
+            ]:
+                if filter == "expired":
+                    if (
+                        product["expiration_date"]
+                        < datetime.strptime(date, "%Y-%m-%d").date()
+                    ):
+                        data_stock.append({**product, "bought_id": product["id"]})
+                elif filter == "stock":
+                    if (
+                        product["expiration_date"]
+                        >= datetime.strptime(date, "%Y-%m-%d").date()
+                    ):
+                        data_stock.append({**product, "bought_id": product["id"]})
+
         report_list = self.group_same_products(data_stock)
+        return report_list
+
+    def make_report_stock(self, date, data_bought, data_sold):
+        report_list = self.filter_data(date, data_bought, data_sold, "stock")
         self.print_data_stock(report_list, date)
+        self.export_report(report_list, "stock.csv")
+        return report_list
 
     def make_report_expired(self, date, data_bought, data_sold):
-        data_stock = []
-        filter_bought_data = [product for product in data_bought if product["buy_date"] < datetime.strptime(date, "%Y-%m-%d").date() ]
-        filter_sold_data = [product for product in data_sold if datetime.strptime(product["sell_date"], "%Y-%m-%d").date() > datetime.strptime(date, "%Y-%m-%d").date()]
-        for product in filter_bought_data:
-            if product["id"] not in [product["bought_id"] for product in filter_sold_data]:
-                if (
-                    product["expiration_date"]
-                    < datetime.strptime(date, "%Y-%m-%d").date()
-                ):
-                    data_stock.append({**product, "bought_id": product["id"]})
-        report_list = self.group_same_products(data_stock)
+        report_list = self.filter_data(date, data_bought, data_sold, "expired")
         self.print_data_expired(report_list, date)
+        return report_list
+
 
 
     def print_data_stock(self, data, date):
@@ -149,9 +168,28 @@ class Inventory_keeper:
                     "buy_price": row["buy_price"],
                     "expiration_date": row["expiration_date"],
                     "product_name": row["product_name"],
-                    "number_in_stock": len(bought_id),
+                    "number_in_stock": len((bought_id)),
                 }
                 data.append(product)
-        return data                   
+        return data
 
-  
+    def export_report_csv(self, data, path):
+        with open(path, "w", newline="") as file:
+            try:
+                fieldnames=data[0].keys()
+                writer = csv.DictWriter(file, delimiter=";", fieldnames=fieldnames)
+                writer.writeheader()
+                for line in data:
+                    writer.writerow(line)
+            except:
+                writer = csv.writer(file)
+                writer.writerow(["No data for this date"])
+
+    def export_report_txt(self, data, path):
+        with open(path, "a") as file:
+            file.write(data)
+
+
+
+
+

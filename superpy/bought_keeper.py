@@ -52,3 +52,20 @@ class Bought_keeper:
             )
             writer.writerow(buy_product)
         return None
+
+    def import_bought_products(self, path):
+        try:
+            with open(self.path, 'r+') as bought_list:
+                reader_bought = bought_list.readlines()
+                writer = csv.DictWriter(bought_list, delimiter=";", fieldnames=self.fieldnames)
+                with open(path, "r") as imported_products:
+                    reader = csv.DictReader(imported_products, delimiter=";", fieldnames=self.fieldnames)
+                    id = reader_bought[-1].split(";")[0]
+                    id = int(id)
+                    next(reader)
+                    for row in reader:
+                        id += 1
+                        row["id"] = id
+                        writer.writerow(row)
+        except FileNotFoundError:
+            print("File not found!!! check your file")
