@@ -6,7 +6,6 @@ from datetime import datetime
 from rich.table import Table
 
 
-
 class Inventory_keeper:
     def __init__(self, path):
         self.path = path
@@ -35,16 +34,11 @@ class Inventory_keeper:
         data_stock = []
         date = date_stamp(date)
         filter_bought_data = [
-            product
-            for product in data_bought
-            if product["buy_date"] <= date
+            product for product in data_bought if product["buy_date"] <= date
         ]
         for product in filter_bought_data:
             if product["id"] not in [product["bought_id"] for product in data_sold]:
-                if (
-                    product["expiration_date"]
-                    >= date
-                ):
+                if product["expiration_date"] >= date:
                     data_stock.append({**product, "bought_id": product["id"]})
         self.writer_stock_list(data_stock)
         return data_stock
@@ -53,31 +47,20 @@ class Inventory_keeper:
         data_stock = []
         date = date_stamp(date)
         filter_bought_data = [
-            product
-            for product in data_bought
-            if product["buy_date"] <= date
+            product for product in data_bought if product["buy_date"] <= date
         ]
         filter_sold_data = [
-            product
-            for product in data_sold
-            if date_stamp(product["sell_date"])
-            <= date
+            product for product in data_sold if date_stamp(product["sell_date"]) <= date
         ]
         for product in filter_bought_data:
             if product["id"] not in [
                 product["bought_id"] for product in filter_sold_data
             ]:
                 if filter == "expired":
-                    if (
-                        product["expiration_date"]
-                        < date
-                    ):
+                    if product["expiration_date"] < date:
                         data_stock.append({**product, "bought_id": product["id"]})
                 elif filter == "stock":
-                    if (
-                        product["expiration_date"]
-                        >= date
-                    ):
+                    if product["expiration_date"] >= date:
                         data_stock.append({**product, "bought_id": product["id"]})
 
         report_list = self.group_same_products(data_stock)

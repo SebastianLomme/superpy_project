@@ -3,7 +3,11 @@ from helper import valid_date
 import datetime
 from helper import valid_path
 
-parser = argparse.ArgumentParser(description="Keep track of your stock", prog="SuperPy", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser = argparse.ArgumentParser(
+    description="Keep track of your stock",
+    prog="SuperPy",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
 parser.add_argument(
     "-a",
     "--advance-time",
@@ -26,7 +30,9 @@ subparser = parser.add_subparsers(dest="command")
 
 # start_parser = subparser.add_parser("start", help="set date to today")
 
-import_bought_parser = subparser.add_parser("import", help="import all items from a csv from given path")
+import_bought_parser = subparser.add_parser(
+    "import", help="import all items from a csv from given path"
+)
 import_bought_parser.add_argument("path", type=valid_path, help="path to file")
 
 
@@ -39,7 +45,7 @@ report_parser.add_argument(
     "report",
     help="show report for choice from revenue, inventory, profit, expired. Use report -h for more information",
     type=str,
-    choices = ["revenue", "inventory", "profit", "expired"]
+    choices=["revenue", "inventory", "profit", "expired"],
 )
 
 # report_group = report_parser.add_mutually_exclusive_group()
@@ -114,7 +120,6 @@ report_to_date_group.add_argument(
     action="store",
     help="sets date for report as as given date format YYYY-MM-DD",
 )
-
 
 
 report_parser.add_argument(

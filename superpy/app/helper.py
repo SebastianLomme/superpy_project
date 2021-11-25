@@ -40,5 +40,6 @@ def args_date(date, today, yesterday):
     else:
         return date.strftime("%Y-%m-%d")
 
+
 def date_stamp(date):
     return datetime.strptime(date, "%Y-%m-%d").date()

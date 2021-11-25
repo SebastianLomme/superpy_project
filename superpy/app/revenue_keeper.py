@@ -2,6 +2,8 @@ from datetime import timedelta, datetime
 from rich.table import Table
 from rich.console import Console
 from helper import date_stamp
+
+
 class Revenue_keeper:
     def __init__(self, data):
         self.data = data
@@ -15,10 +17,10 @@ class Revenue_keeper:
             for row in self.data:
                 if date_stamp(row["sell_date"]) == date:
                     total_revenue += row["sell_price"]
-            data.append({"Date":date.strftime("%Y-%m-%d"), "Revenue":total_revenue})
+            data.append({"Date": date.strftime("%Y-%m-%d"), "Revenue": total_revenue})
             date = date + timedelta(days=1)
         return data
-        
+
     def print_revenue(self, data):
         table = Table(title="Revenue report")
         table.add_column("Date")

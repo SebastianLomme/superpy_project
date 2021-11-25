@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
-from app.helper import date_stamp
+from helper import date_stamp
+
 
 class Date_setter:
     def set_date_today(self):
@@ -11,9 +12,7 @@ class Date_setter:
     def set_date(self, number_days):
         with open(self.path, "r") as today_file:
             today = today_file.read()
-        new_date = date_stamp(today) + timedelta(
-            days=number_days
-        )
+        new_date = date_stamp(today) + timedelta(days=number_days)
         new_date_string = new_date.strftime("%Y-%m-%d")
         with open(self.path, "w") as today_file:
             today_file.write(new_date_string)

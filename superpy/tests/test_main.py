@@ -1,8 +1,4 @@
-from app.date_setter import Date_setter
-from app.parser import args
-
 from app.main import add
-
 
 
 # def test_set_date_today():
@@ -11,4 +7,6 @@ from app.main import add
 
 
 def test_add():
-    assert add(1,2) == 3
+    assert add(1, 2) == 3
+    
+print(add(1, 2))
