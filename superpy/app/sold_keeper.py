@@ -43,6 +43,8 @@ class Sold_keeper:
     def sell_product(self, product_name, sell_price, date, data_sold, data_stock):
         bought_id = ""
         for row in data_stock:
+            print("Data_stock: ", row)
+        for row in data_stock:
             if product_name == row["product_name"]:
                 bought_id = row["bought_id"]
                 print("Ok")

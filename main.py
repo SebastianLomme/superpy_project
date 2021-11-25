@@ -9,11 +9,3 @@ print(type(sebastian))
 
 # Comprehension = [os.path.join(cache_folder, file) for file in os.listdir(cache_folder)]
 #     return abs_path_list
-
-
-def return_absolute_path():
-    abs_path_list = []
-    for file in os.listdir(cache_folder):
-        create_path = os.path.join(cache_folder, file)
-        abs_path_list.append(create_path)
-    return abs_path_list

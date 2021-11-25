@@ -1,6 +1,6 @@
 import csv
 from datetime import datetime
-from helper import get_id
+from helper import get_id, date_stamp
 
 
 class Bought_keeper:
@@ -22,11 +22,9 @@ class Bought_keeper:
             for row in reader:
                 id = int(row["id"])
                 product_name = str(row["product_name"])
-                buy_date = datetime.strptime(row["buy_date"], "%Y-%m-%d").date()
+                buy_date = date_stamp(row["buy_date"])
                 buy_price = float(row["buy_price"])
-                expiration_date = datetime.strptime(
-                    row["expiration_date"], "%Y-%m-%d"
-                ).date()
+                expiration_date = date_stamp(row["expiration_date"])
                 data.append(
                     {
                         "id": id,
@@ -55,11 +53,15 @@ class Bought_keeper:
 
     def import_bought_products(self, path):
         try:
-            with open(self.path, 'r+') as bought_list:
+            with open(self.path, "r+") as bought_list:
                 reader_bought = bought_list.readlines()
-                writer = csv.DictWriter(bought_list, delimiter=";", fieldnames=self.fieldnames)
+                writer = csv.DictWriter(
+                    bought_list, delimiter=";", fieldnames=self.fieldnames
+                )
                 with open(path, "r") as imported_products:
-                    reader = csv.DictReader(imported_products, delimiter=";", fieldnames=self.fieldnames)
+                    reader = csv.DictReader(
+                        imported_products, delimiter=";", fieldnames=self.fieldnames
+                    )
                     id = reader_bought[-1].split(";")[0]
                     id = int(id)
                     next(reader)

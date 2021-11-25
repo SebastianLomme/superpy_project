@@ -1,9 +1,10 @@
 import csv
 
 from rich.console import Console
-from helper import get_id
+from helper import get_id, date_stamp
 from datetime import datetime
 from rich.table import Table
+
 
 
 class Inventory_keeper:
@@ -11,7 +12,7 @@ class Inventory_keeper:
         self.path = path
         self.stock_data = []
 
-    def writer_stock_list(self,  data_stock):
+    def writer_stock_list(self, data_stock):
         with open(self.path, "w", newline="") as stock_list:
             fieldnames = [
                 "id",
@@ -32,16 +33,17 @@ class Inventory_keeper:
 
     def get_stock(self, date, data_bought, data_sold):
         data_stock = []
+        date = date_stamp(date)
         filter_bought_data = [
             product
             for product in data_bought
-            if product["buy_date"] < datetime.strptime(date, "%Y-%m-%d").date()
+            if product["buy_date"] <= date
         ]
         for product in filter_bought_data:
             if product["id"] not in [product["bought_id"] for product in data_sold]:
                 if (
                     product["expiration_date"]
-                    >= datetime.strptime(date, "%Y-%m-%d").date()
+                    >= date
                 ):
                     data_stock.append({**product, "bought_id": product["id"]})
         self.writer_stock_list(data_stock)
@@ -49,16 +51,17 @@ class Inventory_keeper:
 
     def filter_data(self, date, data_bought, data_sold, filter):
         data_stock = []
+        date = date_stamp(date)
         filter_bought_data = [
             product
             for product in data_bought
-            if product["buy_date"] < datetime.strptime(date, "%Y-%m-%d").date()
+            if product["buy_date"] <= date
         ]
         filter_sold_data = [
             product
             for product in data_sold
-            if datetime.strptime(product["sell_date"], "%Y-%m-%d").date()
-            <= datetime.strptime(date, "%Y-%m-%d").date()
+            if date_stamp(product["sell_date"])
+            <= date
         ]
         for product in filter_bought_data:
             if product["id"] not in [
@@ -67,31 +70,30 @@ class Inventory_keeper:
                 if filter == "expired":
                     if (
                         product["expiration_date"]
-                        < datetime.strptime(date, "%Y-%m-%d").date()
+                        < date
                     ):
                         data_stock.append({**product, "bought_id": product["id"]})
                 elif filter == "stock":
                     if (
                         product["expiration_date"]
-                        >= datetime.strptime(date, "%Y-%m-%d").date()
+                        >= date
                     ):
                         data_stock.append({**product, "bought_id": product["id"]})
 
         report_list = self.group_same_products(data_stock)
+        print("report: ", report_list)
         return report_list
 
     def make_report_stock(self, date, data_bought, data_sold):
         report_list = self.filter_data(date, data_bought, data_sold, "stock")
         self.print_data_stock(report_list, date)
-        self.export_report(report_list, "stock.csv")
+        # self.export_report_csv(report_list, "../files/stock.csv")
         return report_list
 
     def make_report_expired(self, date, data_bought, data_sold):
         report_list = self.filter_data(date, data_bought, data_sold, "expired")
         self.print_data_expired(report_list, date)
         return report_list
-
-
 
     def print_data_stock(self, data, date):
         table = Table(title=f"Inventory list {date}")
@@ -176,7 +178,7 @@ class Inventory_keeper:
     def export_report_csv(self, data, path):
         with open(path, "w", newline="") as file:
             try:
-                fieldnames=data[0].keys()
+                fieldnames = data[0].keys()
                 writer = csv.DictWriter(file, delimiter=";", fieldnames=fieldnames)
                 writer.writeheader()
                 for line in data:
@@ -185,11 +187,15 @@ class Inventory_keeper:
                 writer = csv.writer(file)
                 writer.writerow(["No data for this date"])
 
-    def export_report_txt(self, data, path):
-        with open(path, "a") as file:
-            file.write(data)
-
-
-
-
-
+    # def export_report_txt(self, data, path):
+    #     with open(path, "w", newline="") as file:
+    #         try:
+    #             fieldnames = data[0].keys()
+    #             writer = csv.DictWriter(file, delimiter=";", fieldnames=fieldnames)
+    #             writer.writeheader()
+    #             for line in data:
+    #                 print("Line: ", line)
+    #                 writer.writerow(line)
+    #         except:
+    #             writer = csv.writer(file)
+    #             writer.writerow(["No data for this date"])

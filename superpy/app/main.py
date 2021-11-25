@@ -21,12 +21,16 @@ __human_name__ = "superpy"
 
 
 current_path = os.path.dirname(__file__)
-current_path_bought = os.path.join(current_path, "bought.csv")
-current_path_stock = os.path.join(current_path, "stock_list.csv")
-current_path_sold = os.path.join(current_path, "sold_list.csv")
-current_path_today = os.path.join(current_path, "today.txt")
+current_path_bought = os.path.join(current_path, "../files/bought.csv")
+current_path_stock = os.path.join(current_path, "../files/stock_list.csv")
+current_path_sold = os.path.join(current_path, "../files/sold_list.csv")
+current_path_today = os.path.join(current_path, "../files/today.txt")
+print(current_path, current_path_today)
 data_stock = []
 console = Console()
+
+def add(num1, num2):
+    return num1 + num2
 
 
 def main():
@@ -57,35 +61,42 @@ def main():
             data_bought,
         )
     elif args.command == "report":
-        if args.report_inventory == True:
+        if args.report == "inventory":
             date = args_date(args.report_date, today, yesterday)
             inventory_data = inventory_keeper.make_report_stock(
                 date, data_bought, data_sold
             )
             if args.report_export != None:
-                inventory_keeper.export_report_csv(inventory_data, f"{args.report_export}_{date}.csv")
-        elif args.report_revenue == True:
+                inventory_keeper.export_report_csv(
+                    inventory_data, f"{args.report_export}_{date}.csv"
+                )
+        elif args.report == "revenue":
             date = args_date(args.report_date, today, yesterday)
-            revenue = Revenue_keeper(data_sold).get_revenue(date)
-            revenue_data = (f"revenue for {date} is €{revenue}")
-            print("Revenue: ", revenue)
+            to_date = args_date(args.report_to_date, today, yesterday)
+            revenue = Revenue_keeper(data_sold).get_revenue(date, to_date)
+            Revenue_keeper(data_sold).print_revenue(revenue)
             if args.report_export != None:
-                inventory_keeper.export_report_txt(revenue_data, f"{args.report_export}_{date}.txt")
-        elif args.report_profit == True:
+                inventory_keeper.export_report_csv(
+                    revenue, f"{args.report_export}_{date}.csv"
+                )
+        elif args.report == "profit":
             print("profit")
-        elif args.report_expired == True:
+        elif args.report == "expired":
             date = args_date(args.report_date, today, yesterday)
             expired_data = inventory_keeper.make_report_expired(
                 date, data_bought, data_sold
             )
             if args.report_export != None:
-                inventory_keeper.export_report_csv(expired_data, f"{args.report_export}_{date}.csv")
+                inventory_keeper.export_report_csv(
+                    expired_data, f"{args.report_export}_{date}.csv"
+                )
     elif args.command == "import":
         bought_keeper.import_bought_products(args.path)
 
-
     data_bought = bought_keeper.read_bought_to_data()
     data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
+
+
 
 
 if __name__ == "__main__":
