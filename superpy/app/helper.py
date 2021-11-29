@@ -2,7 +2,7 @@ from datetime import datetime, date
 import argparse
 import os
 
-current_path = os.path.dirname(__file__)
+current_path = os.getcwd()
 
 
 def get_id(list_data):
@@ -20,13 +20,13 @@ def valid_date(s):
         raise argparse.ArgumentTypeError(msg)
 
 
-def valid_path(s):
-    path = os.path.join(current_path, s)
+def valid_path(s, path = current_path):
+    path = os.path.join(path, s)
     print("path: {}".format(path))
     if os.path.exists(path):
         return path
     else:
-        msg = "not a valid file test!!!!"
+        msg = "not a valid file!!!!"
         raise argparse.ArgumentTypeError(msg)
 
 
@@ -42,4 +42,9 @@ def args_date(date, today, yesterday):
 
 
 def date_stamp(date):
-    return datetime.strptime(date, "%Y-%m-%d").date()
+    try:
+        return datetime.strptime(date, "%Y-%m-%d").date()
+    except ValueError:
+        msg = "Invalid date, format input '%Y-%m-%d'"
+        raise ValueError(msg)
+

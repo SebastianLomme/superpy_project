@@ -29,4 +29,4 @@ class Revenue_keeper:
             table.add_row(row["Date"], str(row["Revenue"]))
         console = Console()
         console.print(table)
-        pass
+

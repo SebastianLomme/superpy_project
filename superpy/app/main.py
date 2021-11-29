@@ -5,13 +5,14 @@ from rich.console import Console
 from rich.table import Table
 
 
-from parser import args
+from parsers import args
 from helper import get_id, args_date
 from date_setter import Date_setter
 from bought_keeper import Bought_keeper
 from sold_keeper import Sold_keeper
 from inventory_keeper import Inventory_keeper
 from revenue_keeper import Revenue_keeper
+from profit_keeper import Profit_keeper
 
 
 # Do not change these lines.
@@ -19,22 +20,19 @@ __winc_id__ = "a2bc36ea784242e4989deb157d527ba0"
 __human_name__ = "superpy"
 
 
-current_path = os.path.dirname(__file__)
-current_path_bought = os.path.join(current_path, "../files/bought.csv")
-current_path_stock = os.path.join(current_path, "../files/stock_list.csv")
-current_path_sold = os.path.join(current_path, "../files/sold_list.csv")
-current_path_today = os.path.join(current_path, "../files/today.txt")
+current_path = os.getcwd()
+current_path_bought = os.path.join(current_path, "files/bought.csv")
+current_path_stock = os.path.join(current_path, "files/stock_list.csv")
+current_path_sold = os.path.join(current_path, "files/sold_list.csv")
+current_path_today = os.path.join(current_path, "files/today.txt")
 print(current_path, current_path_today)
 data_stock = []
 console = Console()
 
 
-def add(num1, num2):
-    return num1 + num2
-
-
 def main():
-    today = str(Date_setter(current_path_today, args))
+    today = str(Date_setter(current_path_today).set_date_args(args))
+    print(today)
     yesterday = (
         datetime.strptime(today, "%Y-%m-%d").date() - timedelta(days=1)
     ).strftime("%Y-%m-%d")
@@ -95,7 +93,12 @@ def main():
 
     data_bought = bought_keeper.read_bought_to_data()
     data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
+    Profit_keeper().get_profit(data_bought, data_sold, data_stock, yesterday, today)
+
+
 
 
 if __name__ == "__main__":
     main()
+    # current_path = os.path.dirname(os.path.dirname(__file__))
+    # print(current_path)
