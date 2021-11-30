@@ -75,6 +75,10 @@ class Test_args_date:
         test_date = args_date(date_stamp("2021-11-20"), "2021-11-26", "2021-11-25")
         assert test_date == "2021-11-20"
 
+    def test_args_date_value_error(self):
+        with pytest.raises(ValueError):
+            args_date(date_stamp("20-11-2021"), "2021-11-26", "2021-11-25")
+
 
 class Test_read_bought_to_data:
     data = []
@@ -107,19 +111,29 @@ class Test_read_bought_to_data:
         assert type(self.data[-1]["expiration_date"]) == datetime.date
 
     def test_buy_product(self):
-        product = Bought_keeper(current_path_bought).make_product("Meat", datetime.date(2021, 11, 27), 10.0, datetime.date(2021, 12, 8), [{"id":1}])
+        product = Bought_keeper(current_path_bought).make_product(
+            "Meat",
+            datetime.date(2021, 11, 27),
+            10.0,
+            datetime.date(2021, 12, 8),
+            [{"id": 1}],
+        )
         assert product == {
-                "id": 2,
-                "product_name": "Meat",
-                "buy_date": datetime.date(2021, 11, 27),
-                "buy_price": 10,
-                "expiration_date": datetime.date(2021, 12, 8),
-            }
+            "id": 2,
+            "product_name": "Meat",
+            "buy_date": datetime.date(2021, 11, 27),
+            "buy_price": 10,
+            "expiration_date": datetime.date(2021, 12, 8),
+        }
         with pytest.raises(TypeError):
-            Bought_keeper(current_path_bought).make_product("Meat", datetime.date(2021, 11, 27), 10.0, datetime.date(2021, 12, 8), 1)
+            Bought_keeper(current_path_bought).make_product(
+                "Meat", datetime.date(2021, 11, 27), 10.0, datetime.date(2021, 12, 8), 1
+            )
+
 
 class Test_import_bought:
     def test_import_bought_product(self):
         with pytest.raises(FileNotFoundError):
-            Bought_keeper(current_path_bought).import_bought_products("test_file_not_exist")
-
+            Bought_keeper(current_path_bought).import_bought_products(
+                "test_file_not_exist"
+            )

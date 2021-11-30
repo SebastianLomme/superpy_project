@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from helper import date_stamp
-from variable import current_path_files
+from variable import console
 import os
 
 
@@ -32,10 +32,10 @@ class Date_setter:
     def set_date_args(self, args):
         if args.today == True:
             self.today = self.set_date_today()
-            print(f"""Ok\ndate set to {self.today}""")
+            console.print(f""":thumbs_up: [green]Ok[/green]\ndate set to {self.today}""")
         elif args.days != None:
             self.today = self.set_new_date_whit_days_input(args.days)
-            print(f"""Ok\ndate set to {self.today}""")
+            console.print(f""":thumbs_up: [green]Ok[/green]\ndate set to {self.today}""")
         else:
             if os.path.exists(self.path):
                 self.today = self.read_date_from_file()

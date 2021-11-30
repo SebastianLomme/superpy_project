@@ -1,6 +1,8 @@
 import csv
 from datetime import datetime
 from helper import get_id, date_stamp
+from rich.table import Table
+from rich.console import Console
 
 
 class Bought_keeper:
@@ -51,7 +53,9 @@ class Bought_keeper:
         expiration_date: datetime.date,
         data: list,
     ) -> None:
-        product = self.make_product(product_name, buy_date, buy_price, expiration_date, data)
+        product = self.make_product(
+            product_name, buy_date, buy_price, expiration_date, data
+        )
         with open(self.path, "a") as bought_list:
             writer = csv.DictWriter(
                 bought_list, delimiter=";", fieldnames=self.fieldnames
@@ -76,7 +80,8 @@ class Bought_keeper:
                 "expiration_date": expiration_date,
             }
         except TypeError:
-            raise TypeError
+            msg = "👎 Error not a valid Type"
+            raise TypeError(msg)
 
     def import_bought_products(self, path: str) -> None:
         try:
@@ -97,4 +102,27 @@ class Bought_keeper:
                         row["id"] = id
                         writer.writerow(row)
         except FileNotFoundError:
-            raise FileNotFoundError("File not found!!! check your file")
+            raise FileNotFoundError("👎 File not found!!! check your file")
+
+    def make_report_bought_products(self, data, date):
+        list_report = [row for row in data if row["buy_date"] == date_stamp(date)]
+        self.print_data_bought(list_report, date)
+        return list_report
+
+    def print_data_bought(self, data, date):
+        table = Table(title=f"Bought products list {date}")
+        table.add_column("id")
+        table.add_column("product_name")
+        table.add_column("buy_date")
+        table.add_column("buy_price")
+        table.add_column("expiration_date")
+        for row in data:
+            table.add_row(
+                str(row["id"]),
+                row["product_name"],
+                row["buy_date"].strftime("%Y-%m-%d"),
+                str(row["buy_price"]),
+                row["expiration_date"].strftime("%Y-%m-%d"),
+            )
+        console = Console()
+        console.print(table)

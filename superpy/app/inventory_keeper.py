@@ -69,7 +69,6 @@ class Inventory_keeper:
     def make_report_stock(self, date, data_bought, data_sold):
         report_list = self.filter_data(date, data_bought, data_sold, "stock")
         self.print_data_stock(report_list, date)
-        # self.export_report_csv(report_list, "../files/stock.csv")
         return report_list
 
     def make_report_expired(self, date, data_bought, data_sold):

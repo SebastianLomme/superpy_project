@@ -36,7 +36,7 @@ def test():
     print("test")
 ```
 
-Use `git status` to list all new or modified files that haven't yet been committed.
+
 ```bash
 python main.py -h
 ```

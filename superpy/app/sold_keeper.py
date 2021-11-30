@@ -1,5 +1,7 @@
 import os, csv
-from helper import get_id
+from helper import get_id, date_stamp
+from rich.table import Table
+from rich.console import Console
 
 
 class Sold_keeper:
@@ -62,3 +64,27 @@ class Sold_keeper:
             )
             writer.writerow(sell_product)
         return None
+
+    def make_report_sold_products(self, data, date):
+        list_report = [
+            row for row in data if date_stamp(row["sell_date"]) == date_stamp(date)
+        ]
+        self.print_data_sold(list_report, date)
+        return list_report
+
+    def print_data_sold(self, data, date):
+        table = Table(title=f"Sold products list {date}")
+        table.add_column("id")
+        table.add_column("bought_id")
+        table.add_column("sell_date")
+        table.add_column("sell_price")
+
+        for row in data:
+            table.add_row(
+                str(row["id"]),
+                str(row["bought_id"]),
+                row["sell_date"],
+                str(row["sell_price"]),
+            )
+        console = Console()
+        console.print(table)

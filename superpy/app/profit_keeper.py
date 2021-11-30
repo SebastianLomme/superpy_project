@@ -1,11 +1,8 @@
-from datetime import timedelta, datetime
+from datetime import timedelta
 from rich.table import Table
-from rich.console import Console
 from helper import date_stamp
-from revenue_keeper import Revenue_keeper
-from inventory_keeper import Inventory_keeper
-from variable import current_path_stock
-from inventory_keeper import Inventory_keeper
+from variable import console
+
 
 
 class Profit_keeper:
@@ -46,5 +43,4 @@ class Profit_keeper:
         for row in data:
             table.add_row(row["Date"], str(row["Profit"]))
         table.add_row("total profit: ", str(sum(row["Profit"] for row in data)))
-        console = Console()
         console.print(table)

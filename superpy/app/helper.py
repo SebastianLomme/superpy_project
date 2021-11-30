@@ -1,6 +1,10 @@
 from datetime import datetime, date
 import argparse
 import os
+from variable import console
+
+
+
 
 current_path = os.getcwd()
 
@@ -16,7 +20,7 @@ def valid_date(s):
     try:
         return date_stamp(s)
     except ValueError:
-        msg = "not a valid date: {0!r} use format YYYY-MM-DD".format(s)
+        msg = "👎 Error not a valid date: {0!r} use format YYYY-MM-DD".format(s)
         raise argparse.ArgumentTypeError(msg)
 
 
@@ -26,7 +30,7 @@ def valid_path(s, path=current_path):
     if os.path.exists(path):
         return path
     else:
-        msg = "not a valid file!!!!"
+        msg = "👎 Error not a valid file!!!!"
         raise argparse.ArgumentTypeError(msg)
 
 
@@ -45,5 +49,5 @@ def date_stamp(date):
     try:
         return datetime.strptime(date, "%Y-%m-%d").date()
     except ValueError:
-        msg = "Invalid date, format input '%Y-%m-%d'"
+        msg = "👎 Error not a valid date: {0!r} use format YYYY-MM-DD".format(date)
         raise ValueError(msg)

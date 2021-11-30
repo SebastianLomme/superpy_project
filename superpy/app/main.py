@@ -21,21 +21,13 @@ from setup_keeper import Setup_keeper
 __winc_id__ = "a2bc36ea784242e4989deb157d527ba0"
 __human_name__ = "superpy"
 
-
-# current_path = os.getcwd()
-# current_path_bought = os.path.join(current_path, "files/bought.csv")
-# current_path_stock = os.path.join(current_path, "files/stock_list.csv")
-# current_path_sold = os.path.join(current_path, "files/sold_list.csv")
-# current_path_today = os.path.join(current_path, "files/today.txt")
-# print(current_path, current_path_today)
 data_stock = []
-# console = Console()
+
 
 
 def main():
     Setup_keeper().first_run()
     today = str(Date_setter(current_path_today).set_date_args(args))
-    print(today)
     yesterday = (
         datetime.strptime(today, "%Y-%m-%d").date() - timedelta(days=1)
     ).strftime("%Y-%m-%d")
@@ -44,7 +36,6 @@ def main():
     sold_keeper = Sold_keeper(current_path_sold)
     data_sold = sold_keeper.read_sold_list()
     inventory_keeper = Inventory_keeper(current_path_stock)
-    console.print("Command: ", args)
     if args.command == "sell":
         data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
         sold_keeper.sell_product(
@@ -79,7 +70,6 @@ def main():
                     revenue, f"{args.report_export}_{date}.csv"
                 )
         elif args.report == "profit":
-
             profit_data = Profit_keeper().get_profit_data(
                 data_bought, data_sold, date, to_date
             )
@@ -96,12 +86,27 @@ def main():
                 inventory_keeper.export_report_csv(
                     expired_data, f"{args.report_export}_{date}.csv"
                 )
+
+        elif args.report == "bought":
+            bought_data = bought_keeper.make_report_bought_products(data_bought, date)
+            if args.report_export != None:
+                inventory_keeper.export_report_csv(
+                    bought_data, f"{args.report_export}_{date}.csv"
+                )
+
+        elif args.report == "sold":
+            print(data_sold)
+            sold_data = sold_keeper.make_report_sold_products(data_sold, date)
+            if args.report_export != None:
+                inventory_keeper.export_report_csv(
+                    sold_data, f"{args.report_export}_{date}.csv"
+                )
     elif args.command == "import":
         bought_keeper.import_bought_products(args.path)
 
     data_bought = bought_keeper.read_bought_to_data()
     data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
-    print(type(current_path_bought))
+
 
 
 if __name__ == "__main__":

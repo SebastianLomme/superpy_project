@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime
 from rich.table import Table
-from rich.console import Console
 from helper import date_stamp
+from variable import console
 
 
 class Revenue_keeper:
@@ -31,5 +31,4 @@ class Revenue_keeper:
         for row in data:
             table.add_row(row["Date"], str(row["Revenue"]))
         table.add_row("total revenue: ", str(sum(row["Revenue"] for row in data)))
-        console = Console()
         console.print(table)
