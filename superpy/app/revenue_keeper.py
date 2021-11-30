@@ -8,16 +8,19 @@ class Revenue_keeper:
     def __init__(self, data):
         self.data = data
 
-    def get_revenue(self, date, to_date):
+    def get_revenue_day(self, date):
+        revenue = 0
+        for row in self.data:
+            if date_stamp(row["sell_date"]) == date:
+                revenue += row["sell_price"]
+        return {"Date": date.strftime("%Y-%m-%d"), "Revenue": revenue}
+
+    def get_revenue(self, date, to_date=""):
         date = date_stamp(date)
         to_date = date if to_date == "" else date_stamp(to_date)
         data = []
         while date <= to_date:
-            total_revenue = 0
-            for row in self.data:
-                if date_stamp(row["sell_date"]) == date:
-                    total_revenue += row["sell_price"]
-            data.append({"Date": date.strftime("%Y-%m-%d"), "Revenue": total_revenue})
+            data.append(self.get_revenue_day(date))
             date = date + timedelta(days=1)
         return data
 
@@ -27,6 +30,6 @@ class Revenue_keeper:
         table.add_column("Total revenue per day")
         for row in data:
             table.add_row(row["Date"], str(row["Revenue"]))
+        table.add_row("total revenue: ", str(sum(row["Revenue"] for row in data)))
         console = Console()
         console.print(table)
-

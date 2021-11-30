@@ -2,29 +2,41 @@ from datetime import timedelta, datetime
 from rich.table import Table
 from rich.console import Console
 from helper import date_stamp
+from revenue_keeper import Revenue_keeper
+from inventory_keeper import Inventory_keeper
+from variable import current_path_stock
+from inventory_keeper import Inventory_keeper
 
 
 class Profit_keeper:
-    def get_profit(self, bought_data, sold_data, inventory_data, date, to_date):
+    def get_profit(self, bought_data, sold_data, date):
+
+        filter_bought_data = [
+            product for product in bought_data if product["buy_date"] == date
+        ]
+        filter_sold_data = [
+            product for product in sold_data if date_stamp(product["sell_date"]) == date
+        ]
+
+        total_bought = sum(row["buy_price"] for row in filter_bought_data)
+        total_sold = sum(row["sell_price"] for row in filter_sold_data)
+
+        profit = total_sold - total_bought
+        return {"Date": date.strftime("%Y-%m-%d"), "Profit": profit}
+
+    def get_profit_data(
+        self,
+        bought_data,
+        sold_data,
+        date,
+        to_date,
+    ):
         date = date_stamp(date)
         to_date = date if to_date == "" else date_stamp(to_date)
-        data_sold = []
-        data_bought = []
         data = []
-        total_bought = 0
         while date <= to_date:
-            total_sold = 0
-            for row in sold_data:
-                if date_stamp(row["sell_date"]) == date:
-                    total_sold += row["sell_price"]
-            data_sold.append({"Date": date.strftime("%Y-%m-%d"), "Profit": total_sold})
+            data.append(self.get_profit(bought_data, sold_data, date))
             date = date + timedelta(days=1)
-        for row in bought_data:
-            print("row: ", row)
-            if row["buy_date"] < date:
-                total_bought += row["buy_price"]
-        data_bought.append({"Date": date.strftime("%Y-%m-%d"), "buy price:": total_bought})
-        print("data_bought: ", data_bought)
         return data
 
     def print_profit(self, data):
@@ -33,6 +45,6 @@ class Profit_keeper:
         table.add_column("Total profit per day")
         for row in data:
             table.add_row(row["Date"], str(row["Profit"]))
+        table.add_row("total profit: ", str(sum(row["Profit"] for row in data)))
         console = Console()
         console.print(table)
-

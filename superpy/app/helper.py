@@ -20,7 +20,7 @@ def valid_date(s):
         raise argparse.ArgumentTypeError(msg)
 
 
-def valid_path(s, path = current_path):
+def valid_path(s, path=current_path):
     path = os.path.join(path, s)
     print("path: {}".format(path))
     if os.path.exists(path):
@@ -47,4 +47,3 @@ def date_stamp(date):
     except ValueError:
         msg = "Invalid date, format input '%Y-%m-%d'"
         raise ValueError(msg)
-

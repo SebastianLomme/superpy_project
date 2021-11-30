@@ -1,5 +1,7 @@
 from datetime import date, datetime, timedelta
 from helper import date_stamp
+from variable import current_path_files
+import os
 
 
 class Date_setter:
@@ -27,7 +29,6 @@ class Date_setter:
         with open(self.path, "w") as today_file:
             today_file.write(date_string)
 
-
     def set_date_args(self, args):
         if args.today == True:
             self.today = self.set_date_today()
@@ -36,7 +37,10 @@ class Date_setter:
             self.today = self.set_new_date_whit_days_input(args.days)
             print(f"""Ok\ndate set to {self.today}""")
         else:
-            self.today = self.read_date_from_file()
+            if os.path.exists(self.path):
+                self.today = self.read_date_from_file()
+            else:
+                self.today = self.set_date_today()
         return self.today
 
     # def __str__(self):

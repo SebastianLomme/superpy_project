@@ -101,20 +101,20 @@ report_date_group.add_argument(
 
 report_to_date_group = report_parser.add_mutually_exclusive_group()
 report_to_date_group.add_argument(
-    "--to_now",
+    "--to-now",
     default="",
     dest="report_to_date",
     action="store_true",
     help="Sets date for report as today",
 )
 report_to_date_group.add_argument(
-    "--to_yesterday",
+    "--to-yesterday",
     dest="report_to_date",
     action="store_false",
     help="Sets date for report as yesterday",
 )
 report_to_date_group.add_argument(
-    "--to_date",
+    "--to-date",
     dest="report_to_date",
     type=valid_date,
     action="store",
@@ -132,18 +132,18 @@ report_parser.add_argument(
 
 
 sell_parser = subparser.add_parser("sell", help="register purchased product")
-sell_parser.add_argument("--product_name", type=str, required=True, help="product_name")
-sell_parser.add_argument("--sell_price", type=float, required=True, help="price")
+sell_parser.add_argument("--product-name", type=str, required=True, help="product-name")
+sell_parser.add_argument("--sell-price", type=float, required=True, help="price")
 
 
 buy_parser = subparser.add_parser("buy", help="register sold product")
-buy_parser.add_argument("--product_name", type=str, required=True, help="product name")
+buy_parser.add_argument("--product-name", type=str, required=True, help="product name")
 buy_parser.add_argument(
-    "--buy_date", type=valid_date, required=True, help="buy date format YYYY-MM-DD"
+    "--buy-date", type=valid_date, required=True, help="buy date format YYYY-MM-DD"
 )
 buy_parser.add_argument("--buy_price", type=float, required=True, help="buy price")
 buy_parser.add_argument(
-    "--expiration_date",
+    "--expiration-date",
     type=valid_date,
     required=True,
     help="expiration date format YYYY-MM-DD (inclusive)",

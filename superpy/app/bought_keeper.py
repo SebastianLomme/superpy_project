@@ -4,7 +4,7 @@ from helper import get_id, date_stamp
 
 
 class Bought_keeper:
-    def __init__(self, path):
+    def __init__(self, path: str) -> None:
         self.path = path
         self.fieldnames = [
             "id",
@@ -14,7 +14,14 @@ class Bought_keeper:
             "expiration_date",
         ]
 
-    def read_bought_to_data(self):
+    def write_bought_file(self) -> None:
+        with open(self.path, "w", newline="") as bought_file:
+            writer = csv.DictWriter(
+                bought_file, delimiter=";", fieldnames=self.fieldnames
+            )
+            writer.writeheader()
+
+    def read_bought_to_data(self) -> list:
         data = []
         with open(self.path, "r", newline="") as file:
             reader = csv.DictReader(file, delimiter=";", fieldnames=self.fieldnames)
@@ -36,22 +43,42 @@ class Bought_keeper:
                 )
             return data
 
-    def buy_product(self, product_name, buy_date, buy_price, expiration_date, data):
-        buy_product = {
-            "id": get_id(data),
-            "product_name": product_name,
-            "buy_date": buy_date,
-            "buy_price": buy_price,
-            "expiration_date": expiration_date,
-        }
+    def buy_product(
+        self,
+        product_name: str,
+        buy_date: datetime.date,
+        buy_price: float,
+        expiration_date: datetime.date,
+        data: list,
+    ) -> None:
+        product = self.make_product(product_name, buy_date, buy_price, expiration_date, data)
         with open(self.path, "a") as bought_list:
             writer = csv.DictWriter(
                 bought_list, delimiter=";", fieldnames=self.fieldnames
             )
-            writer.writerow(buy_product)
+            writer.writerow(product)
         return None
 
-    def import_bought_products(self, path):
+    def make_product(
+        self,
+        product_name: str,
+        buy_date: datetime.date,
+        buy_price: float,
+        expiration_date: datetime.date,
+        data: list,
+    ) -> dict:
+        try:
+            return {
+                "id": get_id(data),
+                "product_name": product_name,
+                "buy_date": buy_date,
+                "buy_price": buy_price,
+                "expiration_date": expiration_date,
+            }
+        except TypeError:
+            raise TypeError
+
+    def import_bought_products(self, path: str) -> None:
         try:
             with open(self.path, "r+") as bought_list:
                 reader_bought = bought_list.readlines()
@@ -70,4 +97,4 @@ class Bought_keeper:
                         row["id"] = id
                         writer.writerow(row)
         except FileNotFoundError:
-            print("File not found!!! check your file")
+            raise FileNotFoundError("File not found!!! check your file")

@@ -40,7 +40,7 @@ class Inventory_keeper:
             if product["id"] not in [product["bought_id"] for product in data_sold]:
                 if product["expiration_date"] >= date:
                     data_stock.append({**product, "bought_id": product["id"]})
-        self.writer_stock_list(data_stock)
+        # self.writer_stock_list(data_stock)
         return data_stock
 
     def filter_data(self, date, data_bought, data_sold, filter):
@@ -64,7 +64,6 @@ class Inventory_keeper:
                         data_stock.append({**product, "bought_id": product["id"]})
 
         report_list = self.group_same_products(data_stock)
-        print("report: ", report_list)
         return report_list
 
     def make_report_stock(self, date, data_bought, data_sold):
@@ -169,16 +168,3 @@ class Inventory_keeper:
             except:
                 writer = csv.writer(file)
                 writer.writerow(["No data for this date"])
-
-    # def export_report_txt(self, data, path):
-    #     with open(path, "w", newline="") as file:
-    #         try:
-    #             fieldnames = data[0].keys()
-    #             writer = csv.DictWriter(file, delimiter=";", fieldnames=fieldnames)
-    #             writer.writeheader()
-    #             for line in data:
-    #                 print("Line: ", line)
-    #                 writer.writerow(line)
-    #         except:
-    #             writer = csv.writer(file)
-    #             writer.writerow(["No data for this date"])
