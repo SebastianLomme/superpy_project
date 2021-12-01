@@ -4,8 +4,6 @@ import os
 from variable import console
 
 
-
-
 current_path = os.getcwd()
 
 

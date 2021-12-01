@@ -24,7 +24,6 @@ __human_name__ = "superpy"
 data_stock = []
 
 
-
 def main():
     Setup_keeper().first_run()
     today = str(Date_setter(current_path_today).set_date_args(args))
@@ -106,7 +105,6 @@ def main():
 
     data_bought = bought_keeper.read_bought_to_data()
     data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
-
 
 
 if __name__ == "__main__":

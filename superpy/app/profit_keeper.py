@@ -4,7 +4,6 @@ from helper import date_stamp
 from variable import console
 
 
-
 class Profit_keeper:
     def get_profit(self, bought_data, sold_data, date):
 

@@ -32,10 +32,14 @@ class Date_setter:
     def set_date_args(self, args):
         if args.today == True:
             self.today = self.set_date_today()
-            console.print(f""":thumbs_up: [green]Ok[/green]\ndate set to {self.today}""")
+            console.print(
+                f""":thumbs_up: [green]Ok[/green]\ndate set to {self.today}"""
+            )
         elif args.days != None:
             self.today = self.set_new_date_whit_days_input(args.days)
-            console.print(f""":thumbs_up: [green]Ok[/green]\ndate set to {self.today}""")
+            console.print(
+                f""":thumbs_up: [green]Ok[/green]\ndate set to {self.today}"""
+            )
         else:
             if os.path.exists(self.path):
                 self.today = self.read_date_from_file()
