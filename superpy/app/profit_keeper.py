@@ -1,7 +1,9 @@
 from datetime import timedelta
 from rich.table import Table
-from helper import date_stamp
-from variable import console
+from app.helper import date_stamp
+from rich.console import Console
+
+console = Console()
 
 
 class Profit_keeper:

@@ -1,7 +1,9 @@
 from datetime import date, datetime, timedelta
-from helper import date_stamp
-from variable import console
+from app.helper import date_stamp
+from rich.console import Console
 import os
+
+console = Console()
 
 
 class Date_setter:
@@ -47,5 +49,3 @@ class Date_setter:
                 self.today = self.set_date_today()
         return self.today
 
-    # def __str__(self):
-    #     return self.today

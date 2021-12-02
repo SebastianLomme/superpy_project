@@ -1,0 +1,10 @@
+setup.py
+superpy.egg-info/PKG-INFO
+superpy.egg-info/SOURCES.txt
+superpy.egg-info/dependency_links.txt
+superpy.egg-info/entry_points.txt
+superpy.egg-info/top_level.txt
+tests/__init__.py
+tests/test_bought_keeper.py
+tests/test_date_setter.py
+tests/test_helper_function.py

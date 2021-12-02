@@ -1,8 +1,9 @@
 from datetime import timedelta, datetime
 from rich.table import Table
-from helper import date_stamp
-from variable import console
+from app.helper import date_stamp
+from rich.console import Console
 
+console = Console()
 
 class Revenue_keeper:
     def __init__(self, data):

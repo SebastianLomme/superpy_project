@@ -1,7 +1,9 @@
 from datetime import datetime, date
 import argparse
 import os
-from variable import console
+from rich.console import Console
+
+console = Console()
 
 
 current_path = os.getcwd()

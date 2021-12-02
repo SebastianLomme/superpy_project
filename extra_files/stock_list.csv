@@ -1,6 +1,0 @@
-id;bought_id;product_name;buy_price;expiration_date;number_in_stock;buy_date
-1;[2, 10];Chocolate;1.5;2021-12-11;2;
-2;[3, 8, 11];Beer;12.5;2022-02-11;3;
-3;[4];Sausage;4.1;2021-11-17;1;
-4;[7];Sausage;4.1;2021-11-16;1;
-5;[16];Steak;10.5;2021-11-19;1;

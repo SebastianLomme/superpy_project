@@ -1,7 +1,6 @@
 import argparse
-from helper import valid_date
+from app.helper import valid_date, valid_path
 import datetime
-from helper import valid_path
 
 parser = argparse.ArgumentParser(
     description="Keep track of your stock",
