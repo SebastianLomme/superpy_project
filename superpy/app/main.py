@@ -17,12 +17,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-https://github.com/SebastianLomme/superpy_project.git
-
-
-pip install -e .
-pip install rich
-superpy -t
