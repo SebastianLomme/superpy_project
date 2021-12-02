@@ -1,5 +1,14 @@
 # Superpy CLI program
 
+## for setup download files and then run following commands
+```bash
+cd superpy
+python -m venv env
+source env/bin/activate
+pip install -e .
+pip install rich
+```
+
 $~$
 
 ## Help text
