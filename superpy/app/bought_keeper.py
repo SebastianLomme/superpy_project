@@ -95,7 +95,7 @@ class Bought_keeper:
                         imported_products, delimiter=";", fieldnames=self.fieldnames
                     )
                     id = reader_bought[-1].split(";")[0]
-                    id = int(id)
+                    id = int(id) if id.isdigit() else 0
                     next(reader)
                     for row in reader:
                         id += 1

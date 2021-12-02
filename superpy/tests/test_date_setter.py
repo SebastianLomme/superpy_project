@@ -1,17 +1,14 @@
-from app.date_setter import Date_setter
 import os
-import csv
 from collections import namedtuple
-from app.helper import valid_date, valid_path, date_stamp, args_date, get_id
 import datetime
 import pytest
-import argparse
-from app.bought_keeper import Bought_keeper
 import pytest
-import shutil
+
+from app.date_setter import Date_setter
 
 current_path = os.path.dirname(__file__)
 current_path_folder = os.path.join(current_path, "files")
+
 
 class Test_Date_setter:
     today = datetime.datetime.today().date().strftime("%Y-%m-%d")
@@ -43,16 +40,19 @@ class Test_Date_setter:
         args = args_tuple(True, None)
         date = Date_setter(self.current_path_today).set_date_args(args)
         assert date == self.today
+
     def test_args_days(self, set_day_file):
         args_tuple = namedtuple("args", "today days")
         args = args_tuple(False, 5)
         date = Date_setter(self.current_path_today).set_date_args(args)
         assert date == "2021-12-05"
+
     def test_args_days_none(self, set_day_file):
         args_tuple = namedtuple("args", "today days")
         args = args_tuple(False, None)
         date = Date_setter(self.current_path_today).set_date_args(args)
         assert date == "2021-11-30"
+
     def test_args_days_no_file(self, remove_today_file):
         args_tuple = namedtuple("args", "today days")
         args = args_tuple(False, None)

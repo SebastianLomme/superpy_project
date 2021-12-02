@@ -1,17 +1,13 @@
-from app.date_setter import Date_setter
 import os
-import csv
-from collections import namedtuple
 from app.helper import valid_date, valid_path, date_stamp, args_date, get_id
 import datetime
 import pytest
 import argparse
-from app.bought_keeper import Bought_keeper
 import pytest
-import shutil
 
 current_path = os.path.dirname(__file__)
 current_path_folder = os.path.join(current_path, "files")
+
 
 class Test_valid_date:
     def test_valid_date(self):
@@ -33,6 +29,7 @@ class Test_Valid_Path:
         path = valid_path("today_test.txt", current_path_folder)
         assert path == test_path
 
+
 class Test_date_stamp:
     def test_valid_date_stamp_format(self):
         assert isinstance(date_stamp("2021-11-20"), datetime.date)
@@ -41,11 +38,14 @@ class Test_date_stamp:
         with pytest.raises(ValueError):
             date_stamp("20-11-2021")
 
+
 class Test_get_id:
     def test_get_id(self):
-        assert get_id([{"id":1}, {"id":2}]) == 3
+        assert get_id([{"id": 1}, {"id": 2}]) == 3
+
     def test_get_id_empty_list(self):
         assert get_id([]) == 1
+
 
 class Test_args_date:
     def test_args_date_today(self):
@@ -59,6 +59,7 @@ class Test_args_date:
     def test_args_date_date(self):
         test_date = args_date(date_stamp("2021-11-20"), "2021-11-26", "2021-11-25")
         assert test_date == "2021-11-20"
+
     def test_args_date_date_empty_string(self):
         test_date = args_date("", "2021-11-26", "2021-11-25")
         assert test_date == ""

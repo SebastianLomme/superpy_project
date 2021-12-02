@@ -87,7 +87,9 @@ def main():
                 )
 
         elif args.report == "bought":
+            print(data_bought)
             bought_data = bought_keeper.make_report_bought_products(data_bought, date)
+            print(bought_data)
             if args.report_export != None:
                 inventory_keeper.export_report_csv(
                     bought_data, f"{args.report_export}_{date}.csv"
