@@ -1,5 +1,6 @@
 import argparse
 from app.helper import valid_date, valid_path
+
 description = f"""
 
 #     _____                                         
@@ -30,8 +31,7 @@ parser.add_argument(
     help="Enter number of days you wood like to add",
 )
 
-parser.add_argument("-t", "--today", action="store_true",
-                    help="Set date to today")
+parser.add_argument("-t", "--today", action="store_true", help="Set date to today")
 parser.add_argument("--version", action="version", version="%(prog)s 1.0")
 
 subparser = parser.add_subparsers(dest="command")
@@ -45,7 +45,7 @@ import_bought_parser.add_argument("path", type=valid_path, help="path to file")
 
 report_parser = subparser.add_parser(
     "report",
-    help="show report for choice from revenue, inventory, profit, expired. Use report -h for more information",
+    help="show report for from revenue, inventory, profit or expired. Use report -h for more information",
 )
 
 report_parser.add_argument(
@@ -111,20 +111,16 @@ report_parser.add_argument(
 
 
 sell_parser = subparser.add_parser("sell", help="register purchased product")
-sell_parser.add_argument("--product-name", type=str,
-                         required=True, help="product-name")
-sell_parser.add_argument("--sell-price", type=float,
-                         required=True, help="price")
+sell_parser.add_argument("--product-name", type=str, required=True, help="product-name")
+sell_parser.add_argument("--sell-price", type=float, required=True, help="price")
 
 
 buy_parser = subparser.add_parser("buy", help="register sold product")
-buy_parser.add_argument("--product-name", type=str,
-                        required=True, help="product name")
+buy_parser.add_argument("--product-name", type=str, required=True, help="product name")
 buy_parser.add_argument(
     "--buy-date", type=valid_date, required=True, help="buy date format YYYY-MM-DD"
 )
-buy_parser.add_argument("--buy-price", type=float,
-                        required=True, help="buy price")
+buy_parser.add_argument("--buy-price", type=float, required=True, help="buy price")
 buy_parser.add_argument(
     "--expiration-date",
     type=valid_date,

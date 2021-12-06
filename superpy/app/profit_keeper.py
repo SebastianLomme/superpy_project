@@ -43,6 +43,15 @@ class Profit_keeper:
         table.add_column("Total profit per day")
         for row in data:
             table.add_row(row["Date"], str(row["Profit"]))
-        table.add_row("total profit: ", str(
-            sum(row["Profit"] for row in data)))
+        table.add_row("total profit: ", str(sum(row["Profit"] for row in data)))
         console.print(table)
+
+    def print_profit_bar_chart(self, data):
+        dates = []
+        profit_per_date = []
+        for row in data:
+            dates.append(row["Date"])
+            profit_per_date.append(row["Profit"])
+        plt.bar(dates, profit_per_date)
+        plt.tight_layout()
+        plt.show()

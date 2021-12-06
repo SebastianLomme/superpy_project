@@ -57,12 +57,10 @@ class Inventory_keeper:
             ]:
                 if filter == "expired":
                     if product["expiration_date"] < date:
-                        data_stock.append(
-                            {**product, "bought_id": product["id"]})
+                        data_stock.append({**product, "bought_id": product["id"]})
                 elif filter == "stock":
                     if product["expiration_date"] >= date:
-                        data_stock.append(
-                            {**product, "bought_id": product["id"]})
+                        data_stock.append({**product, "bought_id": product["id"]})
 
         report_list = self.group_same_products(data_stock)
         return report_list
@@ -161,8 +159,7 @@ class Inventory_keeper:
         with open(path, "w", newline="") as file:
             try:
                 fieldnames = data[0].keys()
-                writer = csv.DictWriter(
-                    file, delimiter=";", fieldnames=fieldnames)
+                writer = csv.DictWriter(file, delimiter=";", fieldnames=fieldnames)
                 writer.writeheader()
                 for line in data:
                     writer.writerow(line)

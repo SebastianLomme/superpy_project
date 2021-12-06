@@ -26,8 +26,7 @@ class Bought_keeper:
     def read_bought_to_data(self) -> list:
         data = []
         with open(self.path, "r", newline="") as file:
-            reader = csv.DictReader(
-                file, delimiter=";", fieldnames=self.fieldnames)
+            reader = csv.DictReader(file, delimiter=";", fieldnames=self.fieldnames)
             next(reader)
             for row in reader:
                 id = int(row["id"])
@@ -106,8 +105,7 @@ class Bought_keeper:
             raise FileNotFoundError("👎 File not found!!! check your file")
 
     def make_report_bought_products(self, data, date):
-        list_report = [
-            row for row in data if row["buy_date"] == date_stamp(date)]
+        list_report = [row for row in data if row["buy_date"] == date_stamp(date)]
         self.print_data_bought(list_report, date)
         return list_report
 

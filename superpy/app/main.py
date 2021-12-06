@@ -5,7 +5,12 @@ from app.helper import args_date
 from app.revenue_keeper import Revenue_keeper
 from app.profit_keeper import Profit_keeper
 from app.date_setter import Date_setter
-from app.variable import bought_keeper, sold_keeper, inventory_keeper, current_path_today
+from app.variable import (
+    bought_keeper,
+    sold_keeper,
+    inventory_keeper,
+    current_path_today,
+)
 
 from datetime import datetime, timedelta
 
@@ -16,6 +21,8 @@ __human_name__ = "superpy"
 
 
 def command_sell(today, yesterday):
+    # addeds a sold product to the logs
+
     data_bought = bought_keeper.read_bought_to_data()
     data_sold = sold_keeper.read_sold_list()
     data_stock = inventory_keeper.get_stock(today, data_bought, data_sold)
@@ -26,6 +33,8 @@ def command_sell(today, yesterday):
 
 
 def command_buy(today, yesterday):
+    # addeds a bought product to the log
+
     data_bought = bought_keeper.read_bought_to_data()
     bought_keeper.buy_product(
         args.product_name,
@@ -37,10 +46,16 @@ def command_buy(today, yesterday):
 
 
 def command_report(today, yesterday):
+    # function for choosing the different reports via the given args
+
     data_bought = bought_keeper.read_bought_to_data()
     data_sold = sold_keeper.read_sold_list()
+
+
     date = args_date(args.report_date, today, yesterday)
     to_date = args_date(args.report_to_date, today, yesterday)
+
+
     if args.report == "inventory":
         inventory_data = inventory_keeper.make_report_stock(
             date, data_bought, data_sold
@@ -52,6 +67,7 @@ def command_report(today, yesterday):
     elif args.report == "revenue":
         revenue = Revenue_keeper(data_sold).get_revenue(date, to_date)
         Revenue_keeper(data_sold).print_revenue(revenue)
+        Revenue_keeper(data_sold).print_revenue_bar_chart(revenue)
         if args.report_export != None:
             inventory_keeper.export_report_csv(
                 revenue, f"{args.report_export}_{date}.csv"
@@ -61,6 +77,7 @@ def command_report(today, yesterday):
             data_bought, data_sold, date, to_date
         )
         Profit_keeper().print_profit(profit_data)
+        Profit_keeper().print_profit_bar_chart(profit_data)
         if args.report_export != None:
             inventory_keeper.export_report_csv(
                 profit_data, f"{args.report_export}_{date}.csv"
@@ -75,8 +92,7 @@ def command_report(today, yesterday):
             )
 
     elif args.report == "bought":
-        bought_data = bought_keeper.make_report_bought_products(
-            data_bought, date)
+        bought_data = bought_keeper.make_report_bought_products(data_bought, date)
         if args.report_export != None:
             inventory_keeper.export_report_csv(
                 bought_data, f"{args.report_export}_{date}.csv"
@@ -91,6 +107,7 @@ def command_report(today, yesterday):
 
 
 def command_import(today, yesterday):
+
     bought_keeper.import_bought_products(args.path)
 
 
@@ -106,12 +123,13 @@ def main():
     # setup_keeper makes file dir if not yet exist
     Setup_keeper().make_file_dir_if_not_exist()
 
-    # set date
+    # sets date
     today = str(Date_setter(current_path_today).set_date_args(args))
     yesterday = (
         datetime.strptime(today, "%Y-%m-%d").date() - timedelta(days=1)
     ).strftime("%Y-%m-%d")
 
+    # handels de given commands
     if args.command != None:
         command[args.command](today, yesterday)
     print(args)

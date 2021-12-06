@@ -2,6 +2,8 @@ from datetime import timedelta
 from rich.table import Table
 from app.helper import date_stamp
 from rich.console import Console
+import matplotlib.pyplot as plt
+import numpy as np
 
 console = Console()
 
@@ -32,6 +34,18 @@ class Revenue_keeper:
         table.add_column("Total revenue per day")
         for row in data:
             table.add_row(row["Date"], str(row["Revenue"]))
-        table.add_row("total revenue: ", str(
-            sum(row["Revenue"] for row in data)))
+        table.add_row("total revenue: ", str(sum(row["Revenue"] for row in data)))
         console.print(table)
+
+    def print_revenue_bar_chart(self, data):
+        dates = []
+        revenue_per_date = []
+        for row in data:
+            dates.append(row["Date"])
+            revenue_per_date.append(row["Revenue"])
+        plt.bar(dates, revenue_per_date)
+        plt.tight_layout()
+        plt.show()
+
+
+

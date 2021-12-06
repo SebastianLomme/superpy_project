@@ -20,7 +20,7 @@ def valid_date(s):
     try:
         return date_stamp(s)
     except ValueError:
-        msg = "👎 Error not a valid date: {0!r} use format YYYY-MM-DD".format(s)
+        msg = f"👎 Error not a valid date: {s} use format YYYY-MM-DD"
         raise argparse.ArgumentTypeError(msg)
 
 
@@ -30,7 +30,7 @@ def valid_path(s, path=current_path):
     if os.path.exists(path):
         return path
     else:
-        msg = "👎 Error not a valid file!!!!"
+        msg = f"👎 Error {path} is not a valid file!!!!"
         raise argparse.ArgumentTypeError(msg)
 
 
@@ -49,5 +49,5 @@ def date_stamp(date):
     try:
         return datetime.strptime(date, "%Y-%m-%d").date()
     except ValueError:
-        msg = "👎 Error not a valid date: {0!r} use format YYYY-MM-DD".format(date)
+        msg = f"👎 Error not a valid date: {date} use format YYYY-MM-DD"
         raise ValueError(msg)

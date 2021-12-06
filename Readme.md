@@ -7,8 +7,12 @@ cd superpy
 python -m venv env
 source env/bin/activate
 pip install -e .
-pip install rich
 
+```
+
+## After setup you can run superpy with the command:
+```bash
+superpy
 ```
 
 $~$
@@ -108,5 +112,16 @@ you can only sell product that are in stock, or you will get a out of stock erro
 sell-date is set to program date
 ```bash
 superpy sell --product-name Salade --sell-price 2.50
+```
+
+
+## To run test for superpy install pytest
+```bash
+pip install pytest
+```
+
+### After you heb installed pytest, you can run all test whit the command
+```bash
+pytest
 ```
 

@@ -1,3 +1,0 @@
-[console_scripts]
-superpy = superpy.app.main:main
-
