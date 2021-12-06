@@ -1,15 +1,13 @@
 # Superpy CLI program
 
-## for setup download files and then run following commands
+## for setup run following commands
 ```bash
+git clone git+https://github.com/SebastianLomme/superpy_project.git
 cd superpy
 python -m venv env
 source env/bin/activate
 pip install -e .
 pip install rich
-
-pip install git+https://github.com/SebastianLomme/superpy_project.git
-
 
 ```
 
