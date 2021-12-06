@@ -7,6 +7,10 @@ python -m venv env
 source env/bin/activate
 pip install -e .
 pip install rich
+
+pip install git+https://github.com/SebastianLomme/superpy_project.git
+
+
 ```
 
 $~$
