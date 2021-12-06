@@ -7,6 +7,7 @@ setup(
     entry_points={
         'console_scripts' : ['superpy=app.main:main']
     },
+    install_requires=['rich'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
 )
