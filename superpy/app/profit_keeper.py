@@ -54,6 +54,6 @@ class Profit_keeper:
             dates.append(row["Date"])
             profit_per_date.append(row["Profit"])
         plt.bar(dates, profit_per_date)
-        plt.title(f"Profit from {dates[0]} till {dates[-1]}" , loc="center")
+        plt.title(f"Profit from {dates[0]} till {dates[-1]}", loc="center")
         plt.tight_layout()
         plt.show()

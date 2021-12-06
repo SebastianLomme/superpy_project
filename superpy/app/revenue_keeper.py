@@ -45,9 +45,6 @@ class Revenue_keeper:
             revenue_per_date.append(row["Revenue"])
         plt.bar(dates, revenue_per_date)
         plt.tight_layout()
-        plt.title(f"Revenue from {dates[0]} till {dates[-1]}" , loc="center")
+        plt.title(f"Revenue from {dates[0]} till {dates[-1]}", loc="center")
         plt.grid(True)
         plt.show()
-
-
-

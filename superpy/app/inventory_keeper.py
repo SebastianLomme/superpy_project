@@ -39,7 +39,6 @@ class Inventory_keeper:
             if product["id"] not in [product["bought_id"] for product in data_sold]:
                 if product["expiration_date"] >= date:
                     data_stock.append({**product, "bought_id": product["id"]})
-        # self.writer_stock_list(data_stock)
         return data_stock
 
     def filter_data(self, date, data_bought, data_sold, filter):

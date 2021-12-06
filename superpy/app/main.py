@@ -51,10 +51,8 @@ def command_report(today, yesterday):
     data_bought = bought_keeper.read_bought_to_data()
     data_sold = sold_keeper.read_sold_list()
 
-
     date = args_date(args.report_date, today, yesterday)
     to_date = args_date(args.report_to_date, today, yesterday)
-
 
     if args.report == "inventory":
         inventory_data = inventory_keeper.make_report_stock(
@@ -107,7 +105,6 @@ def command_report(today, yesterday):
 
 
 def command_import(today, yesterday):
-
     bought_keeper.import_bought_products(args.path)
 
 
@@ -132,7 +129,6 @@ def main():
     # handels de given commands
     if args.command != None:
         command[args.command](today, yesterday)
-
 
 
 if __name__ == "__main__":
