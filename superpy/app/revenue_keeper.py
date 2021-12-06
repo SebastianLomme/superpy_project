@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime
+from datetime import timedelta
 from rich.table import Table
 from app.helper import date_stamp
 from rich.console import Console

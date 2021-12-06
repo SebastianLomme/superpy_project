@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime
 import argparse
 import os
 from rich.console import Console

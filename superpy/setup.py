@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='superpy',
     version='0.0.1',
-    packages=["rich"],
+    packages=find_packages(where="src", exclude=("tests",)),
     entry_points={
         'console_scripts' : ['superpy=app.main:main']
     },

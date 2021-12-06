@@ -1,11 +1,25 @@
 import argparse
 from app.helper import valid_date, valid_path
-import datetime
+description = f"""
+
+#     _____                                         
+#    / ____|                                        
+#   | (___   _   _  _ __    ___  _ __  _ __   _   _ 
+#    \___ \ | | | || '_ \  / _ \| '__|| '_ \ | | | |
+#    ____) || |_| || |_) ||  __/| |   | |_) || |_| |
+#   |_____/  \__,_|| .__/  \___||_|   | .__/  \__, |
+#                  | |                | |      __/ |
+#                  |_|                |_|     |___/ 
+#                                                  v1.0
+
+The program to keep track of your stock                                                                                                                                 
+"""
+
 
 parser = argparse.ArgumentParser(
-    description="Keep track of your stock",
-    prog="SuperPy",
-    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    description=description,
+    prog="Superpy",
+    formatter_class=argparse.RawTextHelpFormatter,
 )
 parser.add_argument(
     "-a",
@@ -23,7 +37,7 @@ subparser = parser.add_subparsers(dest="command")
 
 
 import_bought_parser = subparser.add_parser(
-    "import", help="import all items from a csv from given path"
+    "import", help="import all items from a csv from given path where program is run"
 )
 import_bought_parser.add_argument("path", type=valid_path, help="path to file")
 
