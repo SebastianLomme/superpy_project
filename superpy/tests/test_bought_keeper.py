@@ -1,12 +1,12 @@
-from superpy.app.date_setter import Date_setter
+from app.date_setter import Date_setter
 import os
 import csv
 from collections import namedtuple
-from superpy.app.helper import valid_date, valid_path, date_stamp, args_date, get_id
+from app.helper import valid_date, valid_path, date_stamp, args_date, get_id
 import datetime
 import pytest
 import argparse
-from superpy.app.bought_keeper import Bought_keeper
+from app.bought_keeper import Bought_keeper
 import pytest
 import shutil
 

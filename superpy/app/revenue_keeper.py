@@ -1,6 +1,6 @@
 from datetime import timedelta
 from rich.table import Table
-from superpy.app.helper import date_stamp
+from app.helper import date_stamp
 from rich.console import Console
 
 console = Console()

@@ -1,10 +1,10 @@
 import os
 from datetime import timedelta, datetime
-from superpy.app.date_setter import Date_setter
-from superpy.app.parsers import args
-from superpy.app.bought_keeper import Bought_keeper
-from superpy.app.sold_keeper import Sold_keeper
-from superpy.app.inventory_keeper import Inventory_keeper
+from app.date_setter import Date_setter
+from app.parsers import args
+from app.bought_keeper import Bought_keeper
+from app.sold_keeper import Sold_keeper
+from app.inventory_keeper import Inventory_keeper
 
 
 current_path = os.path.dirname(os.path.realpath(

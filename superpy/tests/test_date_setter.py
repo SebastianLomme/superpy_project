@@ -4,7 +4,7 @@ import datetime
 import pytest
 import pytest
 
-from superpy.app.date_setter import Date_setter
+from app.date_setter import Date_setter
 
 current_path = os.path.dirname(__file__)
 current_path_folder = os.path.join(current_path, "files")

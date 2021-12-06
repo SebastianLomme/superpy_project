@@ -1,11 +1,11 @@
 # Imports
-from superpy.app.parsers import args
-from superpy.app.setup_keeper import Setup_keeper
-from superpy.app.helper import args_date
-from superpy.app.revenue_keeper import Revenue_keeper
-from superpy.app.profit_keeper import Profit_keeper
-from superpy.app.date_setter import Date_setter
-from superpy.app.variable import bought_keeper, sold_keeper, inventory_keeper, current_path_today
+from app.parsers import args
+from app.setup_keeper import Setup_keeper
+from app.helper import args_date
+from app.revenue_keeper import Revenue_keeper
+from app.profit_keeper import Profit_keeper
+from app.date_setter import Date_setter
+from app.variable import bought_keeper, sold_keeper, inventory_keeper, current_path_today
 
 from datetime import datetime, timedelta
 

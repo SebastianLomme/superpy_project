@@ -1,6 +1,6 @@
 import os
-from superpy.app.variable import current_path_files, current_path_bought
-from superpy.app.bought_keeper import Bought_keeper
+from app.variable import current_path_files, current_path_bought
+from app.bought_keeper import Bought_keeper
 
 
 class Setup_keeper:
