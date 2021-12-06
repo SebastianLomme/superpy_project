@@ -1,9 +1,10 @@
 from datetime import timedelta
 from rich.table import Table
-from app.helper import date_stamp
+from superpy.app.helper import date_stamp
 from rich.console import Console
 
 console = Console()
+
 
 class Revenue_keeper:
     def __init__(self, data):
@@ -31,5 +32,6 @@ class Revenue_keeper:
         table.add_column("Total revenue per day")
         for row in data:
             table.add_row(row["Date"], str(row["Revenue"]))
-        table.add_row("total revenue: ", str(sum(row["Revenue"] for row in data)))
+        table.add_row("total revenue: ", str(
+            sum(row["Revenue"] for row in data)))
         console.print(table)

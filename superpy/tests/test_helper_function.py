@@ -1,5 +1,5 @@
 import os
-from app.helper import valid_date, valid_path, date_stamp, args_date, get_id
+from superpy.app.helper import valid_date, valid_path, date_stamp, args_date, get_id
 import datetime
 import pytest
 import argparse
@@ -57,7 +57,8 @@ class Test_args_date:
         assert test_date == "2021-11-25"
 
     def test_args_date_date(self):
-        test_date = args_date(date_stamp("2021-11-20"), "2021-11-26", "2021-11-25")
+        test_date = args_date(date_stamp("2021-11-20"),
+                              "2021-11-26", "2021-11-25")
         assert test_date == "2021-11-20"
 
     def test_args_date_date_empty_string(self):

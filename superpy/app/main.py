@@ -1,11 +1,11 @@
 # Imports
-from app.parsers import args
-from app.setup_keeper import Setup_keeper
-from app.helper import args_date
-from app.revenue_keeper import Revenue_keeper
-from app.profit_keeper import Profit_keeper
-from app.date_setter import Date_setter
-from app.variable import bought_keeper, sold_keeper, inventory_keeper, current_path_today
+from superpy.app.parsers import args
+from superpy.app.setup_keeper import Setup_keeper
+from superpy.app.helper import args_date
+from superpy.app.revenue_keeper import Revenue_keeper
+from superpy.app.profit_keeper import Profit_keeper
+from superpy.app.date_setter import Date_setter
+from superpy.app.variable import bought_keeper, sold_keeper, inventory_keeper, current_path_today
 
 from datetime import datetime, timedelta
 
@@ -24,6 +24,7 @@ def command_sell(today, yesterday):
     )
     data_sold = sold_keeper.read_sold_list()
 
+
 def command_buy(today, yesterday):
     data_bought = bought_keeper.read_bought_to_data()
     bought_keeper.buy_product(
@@ -33,6 +34,7 @@ def command_buy(today, yesterday):
         args.expiration_date,
         data_bought,
     )
+
 
 def command_report(today, yesterday):
     data_bought = bought_keeper.read_bought_to_data()
@@ -73,7 +75,8 @@ def command_report(today, yesterday):
             )
 
     elif args.report == "bought":
-        bought_data = bought_keeper.make_report_bought_products(data_bought, date)
+        bought_data = bought_keeper.make_report_bought_products(
+            data_bought, date)
         if args.report_export != None:
             inventory_keeper.export_report_csv(
                 bought_data, f"{args.report_export}_{date}.csv"
@@ -86,30 +89,32 @@ def command_report(today, yesterday):
                 sold_data, f"{args.report_export}_{date}.csv"
             )
 
+
 def command_import(today, yesterday):
     bought_keeper.import_bought_products(args.path)
 
+
 command = {
-    "buy":command_buy,
-    "sell":command_sell,
-    "report":command_report,
+    "buy": command_buy,
+    "sell": command_sell,
+    "report": command_report,
     "import": command_import,
 }
+
 
 def main():
     # setup_keeper makes file dir if not yet exist
     Setup_keeper().make_file_dir_if_not_exist()
-    
-    # set date 
+
+    # set date
     today = str(Date_setter(current_path_today).set_date_args(args))
     yesterday = (
-    datetime.strptime(today, "%Y-%m-%d").date()- timedelta(days=1)
+        datetime.strptime(today, "%Y-%m-%d").date() - timedelta(days=1)
     ).strftime("%Y-%m-%d")
 
     if args.command != None:
         command[args.command](today, yesterday)
     print(args)
-
 
 
 if __name__ == "__main__":

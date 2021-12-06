@@ -4,7 +4,7 @@ import datetime
 import pytest
 import pytest
 
-from app.date_setter import Date_setter
+from superpy.app.date_setter import Date_setter
 
 current_path = os.path.dirname(__file__)
 current_path_folder = os.path.join(current_path, "files")
@@ -28,7 +28,8 @@ class Test_Date_setter:
         assert date == "2021-11-30"
 
     def test_date_setter_days(self, set_day_file):
-        date = str(Date_setter(self.current_path_today).set_new_date_whit_days_input(5))
+        date = str(Date_setter(
+            self.current_path_today).set_new_date_whit_days_input(5))
         assert date == "2021-12-05"
 
     def test_set_date_today(self):

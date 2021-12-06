@@ -1,12 +1,12 @@
-from app.date_setter import Date_setter
+from superpy.app.date_setter import Date_setter
 import os
 import csv
 from collections import namedtuple
-from app.helper import valid_date, valid_path, date_stamp, args_date, get_id
+from superpy.app.helper import valid_date, valid_path, date_stamp, args_date, get_id
 import datetime
 import pytest
 import argparse
-from app.bought_keeper import Bought_keeper
+from superpy.app.bought_keeper import Bought_keeper
 import pytest
 import shutil
 
@@ -176,6 +176,7 @@ class Test_make_report_bought_products:
                 "expiration_date": datetime.date(2021, 11, 14),
             },
         ]
+
     def test_make_report_bought_products_empty_list(self):
         data = []
         date = "2021-11-12"

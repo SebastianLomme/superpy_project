@@ -1,5 +1,5 @@
 from datetime import date, datetime, timedelta
-from app.helper import date_stamp
+from superpy.app.helper import date_stamp
 from rich.console import Console
 import os
 
@@ -49,4 +49,3 @@ class Date_setter:
             else:
                 self.today = self.set_date_today()
         return self.today
-

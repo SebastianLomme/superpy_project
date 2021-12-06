@@ -1,5 +1,5 @@
 import argparse
-from app.helper import valid_date, valid_path
+from superpy.app.helper import valid_date, valid_path
 description = f"""
 
 #     _____                                         
@@ -30,7 +30,8 @@ parser.add_argument(
     help="Enter number of days you wood like to add",
 )
 
-parser.add_argument("-t", "--today", action="store_true", help="Set date to today")
+parser.add_argument("-t", "--today", action="store_true",
+                    help="Set date to today")
 parser.add_argument("--version", action="version", version="%(prog)s 1.0")
 
 subparser = parser.add_subparsers(dest="command")
@@ -110,16 +111,20 @@ report_parser.add_argument(
 
 
 sell_parser = subparser.add_parser("sell", help="register purchased product")
-sell_parser.add_argument("--product-name", type=str, required=True, help="product-name")
-sell_parser.add_argument("--sell-price", type=float, required=True, help="price")
+sell_parser.add_argument("--product-name", type=str,
+                         required=True, help="product-name")
+sell_parser.add_argument("--sell-price", type=float,
+                         required=True, help="price")
 
 
 buy_parser = subparser.add_parser("buy", help="register sold product")
-buy_parser.add_argument("--product-name", type=str, required=True, help="product name")
+buy_parser.add_argument("--product-name", type=str,
+                        required=True, help="product name")
 buy_parser.add_argument(
     "--buy-date", type=valid_date, required=True, help="buy date format YYYY-MM-DD"
 )
-buy_parser.add_argument("--buy-price", type=float, required=True, help="buy price")
+buy_parser.add_argument("--buy-price", type=float,
+                        required=True, help="buy price")
 buy_parser.add_argument(
     "--expiration-date",
     type=valid_date,

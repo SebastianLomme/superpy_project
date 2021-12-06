@@ -1,6 +1,6 @@
 from datetime import timedelta
 from rich.table import Table
-from app.helper import date_stamp
+from superpy.app.helper import date_stamp
 from rich.console import Console
 
 console = Console()
@@ -43,5 +43,6 @@ class Profit_keeper:
         table.add_column("Total profit per day")
         for row in data:
             table.add_row(row["Date"], str(row["Profit"]))
-        table.add_row("total profit: ", str(sum(row["Profit"] for row in data)))
+        table.add_row("total profit: ", str(
+            sum(row["Profit"] for row in data)))
         console.print(table)
