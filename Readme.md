@@ -2,7 +2,7 @@
 
 ## for setup run following commands
 ```bash
-git clone git+https://github.com/SebastianLomme/superpy_project.git
+git clone https://github.com/SebastianLomme/superpy_project.git
 cd superpy
 python -m venv env
 source env/bin/activate
