@@ -132,7 +132,7 @@ def main():
     # handels de given commands
     if args.command != None:
         command[args.command](today, yesterday)
-    print(args)
+
 
 
 if __name__ == "__main__":

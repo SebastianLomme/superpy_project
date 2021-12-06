@@ -3,7 +3,7 @@ from rich.table import Table
 from app.helper import date_stamp
 from rich.console import Console
 import matplotlib.pyplot as plt
-import numpy as np
+
 
 console = Console()
 
@@ -45,6 +45,8 @@ class Revenue_keeper:
             revenue_per_date.append(row["Revenue"])
         plt.bar(dates, revenue_per_date)
         plt.tight_layout()
+        plt.title(f"Revenue from {dates[0]} till {dates[-1]}" , loc="center")
+        plt.grid(True)
         plt.show()
 
 

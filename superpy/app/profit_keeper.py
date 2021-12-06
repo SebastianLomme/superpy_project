@@ -2,6 +2,7 @@ from datetime import timedelta
 from rich.table import Table
 from app.helper import date_stamp
 from rich.console import Console
+import matplotlib.pyplot as plt
 
 console = Console()
 
@@ -53,5 +54,6 @@ class Profit_keeper:
             dates.append(row["Date"])
             profit_per_date.append(row["Profit"])
         plt.bar(dates, profit_per_date)
+        plt.title(f"Profit from {dates[0]} till {dates[-1]}" , loc="center")
         plt.tight_layout()
         plt.show()
